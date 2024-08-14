@@ -55,4 +55,23 @@ public class ScheduleController {
             throw new IllegalArgumentException("선택한 일정이 존재하지 않습니다.");
         }
     }
+
+
+    // 3단계: 수정일, 담당자명 필터 일정 조회
+    @GetMapping("/schedules/filter")
+    public List<ScheduleResponseDto> searchSchedule(@RequestParam(required = false) String updatedDate,@RequestParam(required = false) String username) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 필터링 조건에 맞게 일정 목록을 필터링
+        List<ScheduleResponseDto> filteredSchedules = scheduleList.values().stream()
+                .filter(schedule -> (updatedDate == null || schedule.getUpdatedDate().startsWith(updatedDate)) &&
+                        (username == null || schedule.getUsername().equals(username)))
+                .sorted(Comparator.comparing(Schedule::getUpdatedDate).reversed())
+                .map(ScheduleResponseDto::new)
+                .collect(Collectors.toList());
+
+        return filteredSchedules;
+    }
+
 }
