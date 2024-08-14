@@ -102,4 +102,22 @@ public class ScheduleController {
         }
     }
 
+
+    // 5단계: 선택 일정 삭제
+    @DeleteMapping("/schedules/param")
+    public Long deleteSchedule(@RequestParam Long studentId, @RequestParam String password) {
+        if(scheduleList.containsKey(studentId)) {
+            //해당 일정 가져오기
+            Schedule schedule = scheduleList.get(studentId);
+
+            if(schedule.getPassword().equals(password)) {
+                scheduleList.remove(studentId);
+                return studentId;
+            } else {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("선택한 일정이 존재하지 않습니다.");
+        }
+    }
 }
