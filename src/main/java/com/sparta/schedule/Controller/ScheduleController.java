@@ -33,4 +33,26 @@ public class ScheduleController {
         return scheduleReponseDto;
     }
 
+    // 전체 일정 조회
+    @GetMapping("/schedules")
+    public List<ScheduleResponseDto> getAllSchedules() {
+        // Map To List
+        List<ScheduleResponseDto> responseList = scheduleList.values().stream().
+                map(ScheduleResponseDto::new).toList();
+
+        return responseList;
+    }
+
+    // 2단계: 아이디로 일정 조회
+    @GetMapping("/schedules/{scheduleId}")
+    public ScheduleResponseDto getScheduleById(@PathVariable Long scheduleId) {
+        //해당 일정이 DB에 존재하는지 확인
+        if(scheduleList.containsKey(scheduleId)) {
+            //해당 일정 가져오기
+            Schedule schedule = scheduleList.get(scheduleId);
+            return new ScheduleResponseDto(schedule);
+        } else {
+            throw new IllegalArgumentException("선택한 일정이 존재하지 않습니다.");
+        }
+    }
 }
