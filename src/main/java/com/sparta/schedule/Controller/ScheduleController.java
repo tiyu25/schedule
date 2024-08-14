@@ -74,4 +74,32 @@ public class ScheduleController {
         return filteredSchedules;
     }
 
+
+    // 4단계: 선택한 일정 수정
+    @PutMapping("/schedules/param")
+    public Long updateSchedule(@RequestParam Long studentId, @RequestParam String password, @RequestBody ScheduleRequestDto requestDto) {
+        //해당 일정이 DB에 존재하는지 확인
+        if(scheduleList.containsKey(studentId)) {
+            //해당 일정 가져오기
+            Schedule schedule = scheduleList.get(studentId);
+
+            if(schedule.getPassword().equals(password)) {
+                // 요청된 데이터로 일정 업데이트
+                schedule.update(requestDto);
+
+                // 일정 업데이트 (수정일 갱신)
+                schedule.update(requestDto);
+
+                //수정된 일정의 정보를 ResponseDto로 변환하여 반환
+                ScheduleResponseDto responseDto = new ScheduleResponseDto(schedule);
+
+                return responseDto.getScheduleId();
+            } else {
+                throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("선택한 일정이 존재하지 않습니다.");
+        }
+    }
+
 }
