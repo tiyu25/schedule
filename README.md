@@ -8,4 +8,4 @@
 | 일정 삭제      | DELETE    | /api/schedules/param        | 요청 param | -            |
 
 ## ERD
-<img width="487" alt="KakaoTalk_Photo_2024-08-14-18-54-47" src="https://github.com/user-attachments/assets/fea5806c-5dc9-49bb-98f1-ee614e0ff997">
+<img width="487" alt="KakaoTalk_Photo_2024-08-14-18-54-47" src="https://github.com/user-attachments/assets/d2cbbc4d-297a-4c9e-be4e-d1b4f460f4ab">
